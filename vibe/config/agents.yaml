@@ -1,0 +1,36 @@
+# vibe/config/agents.yaml
+# 목적:
+# - 역할(Agent)과 프롬프트 파일, 그리고 llm.yaml의 llm_profile을 연결한다.
+# - Agent는 "모델"을 모르고, Runtime(Chief/CLI)이 llm_profile로 라우팅한다.
+# - 이 파일은 '조직도'이자 '배선도(wiring)'다.
+
+agents:
+  # pm:
+  #   # PM AI: 목표/범위/성공기준(DoD) 고정 + 스코프 크립 감시
+  #   prompt_file: vibe/roles/pm_ai.md
+  #   llm_profile: analyst
+
+  chief:
+    # Chief AI: 전체 오케스트레이션, 충돌 조정, 다음 액션 결정
+    prompt_file: vibe/roles/chief_ai.md
+    llm_profile: chief
+
+  analyst:
+    # Analyst AI: 질문→구조화(spec/decisions/open_questions)로 변환
+    prompt_file: vibe/roles/analyst_ai.md
+    llm_profile: analyst
+
+  dev:
+    # Dev AI: 구현(task_plan 기반), 필요 시 PoC 코드/구조 생성
+    prompt_file: vibe/roles/dev_ai.md
+    llm_profile: dev
+
+  qa:
+    # QA AI: 누락/리스크/테스트 관점 점검, 리뷰 체크리스트 관리
+    prompt_file: vibe/roles/qa_ai.md
+    llm_profile: qa
+
+  librarian:
+    # Librarian AI: '대화→파일'로 외부화, 문서 정리 및 링크/일관성 유지
+    prompt_file: vibe/roles/librarian_ai.md
+    llm_profile: librarian

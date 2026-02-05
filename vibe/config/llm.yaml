@@ -1,0 +1,44 @@
+# vibe/config/llm.yaml
+# 목적:
+# - 이 레포에서 사용할 LLM Provider/Model 정책을 "파일"로 고정한다.
+# - Agent는 모델을 모르고, Runtime(Chief/CLI)이 llm_profile에 따라 라우팅한다.
+# - API Key 같은 시크릿은 절대 여기에 넣지 않고 .env로만 관리한다.
+
+providers:
+  openai:
+    # OpenAI API 키를 담고 있는 환경변수 이름
+    env_key_name: OPENAI_API_KEY
+    # 필요 시 프록시/사내 게이트웨이 등을 붙일 때 사용 (기본 null)
+    base_url: null
+
+  google:
+    # Gemini API 키를 담고 있는 환경변수 이름
+    env_key_name: GEMINI_API_KEY
+    base_url: null
+
+models:
+  # ─────────────────────────────────────────────────────────────
+  # 사고/조율/의사결정(Chief) + 구조화(Analyst)는 GPT(OpenAI)
+  # ─────────────────────────────────────────────────────────────
+  chief:
+    provider: openai
+    model: gpt-5 # TODO: 실제 사용 모델명으로 교체
+
+  analyst:
+    provider: openai
+    model: gpt-5 # TODO: 실제 사용 모델명으로 교체
+
+  librarian:
+    provider: openai
+    model: gpt-5-mini # TODO: 실제 사용 모델명으로 교체(가벼운 모델 권장)
+
+  # ─────────────────────────────────────────────────────────────
+  # 구현/반복작업(Dev) + 누락탐지/체크(QA)는 Gemini(Google)
+  # ─────────────────────────────────────────────────────────────
+  dev:
+    provider: google
+    model: gemini-2.0-pro # TODO: 실제 사용 모델명으로 교체
+
+  qa:
+    provider: google
+    model: gemini-2.0-flash # TODO: 실제 사용 모델명으로 교체
